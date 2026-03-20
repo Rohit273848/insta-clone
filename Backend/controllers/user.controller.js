@@ -3,7 +3,6 @@ const followeModel = require('../models/follow.models')
 const userModel = require("../models/user.models")
 
 async function followUserController(req,res){
-
     try{
     const followerUsername = req.user.username;
     const followeeUsername = req.params.username;
@@ -38,9 +37,6 @@ async function followUserController(req,res){
      }
 
 
-
-
-
     const followRecord = await followeModel.create({
         follower:followerUsername,
         followee:followeeUsername
@@ -52,13 +48,55 @@ async function followUserController(req,res){
     })
 }catch (error) {
     res.status(500).json({
-      message: "Something went wrong",
+      message: "Something went wrong in followUserController",
       error: error.message
     });
   }
 
 }
 
+async function unfollowUserController(req,res){
+    try{
+        const followerUsername=req.user.username;
+        const followeeUsername=req.params.username;
+
+        const followeeUser=await userModel.findOne({username:followeeUsername})
+
+        if(!followeeUser){
+            return res.status(404).json({
+                message:"User not found"
+            })
+        }
+
+        const isUserFollowing = await followeModel.findOne({
+            follower:followerUsername,
+            followee:followeeUsername
+        })
+
+        if(!isUserFollowing){
+            return res.status(200).json({
+                message:`your not following ${followeeUsername}`
+            })
+        }
+
+
+        await followeModel.findByIdAndDelete(isUserFollowing._id);
+
+        res.status(200).json({
+            message:`successfuly unfollow to ${followeeUsername}`
+        })
+
+
+    }catch (error) {
+        res.status(500).json({
+          message: "Something went wrong in unfollowUserController",
+          error: error.message
+        });
+      }
+        
+}
+
 module.exports={
-    followUserController
+    followUserController,
+    unfollowUserController
 }
