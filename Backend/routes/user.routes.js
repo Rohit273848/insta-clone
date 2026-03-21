@@ -8,7 +8,7 @@ const identifyUser = require("../middlewares/auth.middleware")
  * @description Follow a user
  * @access privete
  */
-userRoutes.post('/follow/:username',identifyUser,userController.followUserController)
+userRoutes.post('/follow/:username',identifyUser,userController.sendFollowRequest)
 
 /**
  * @routes POST /api/users/unfollow/:userId
@@ -16,5 +16,29 @@ userRoutes.post('/follow/:username',identifyUser,userController.followUserContro
  * @access privete
  */
 userRoutes.post('/unfollow/:username',identifyUser,userController.unfollowUserController)
+
+/**
+ * @routes POST /api/users/acceptfollow/:username
+ * @description accept Follow Request
+ * @access privete
+ */
+userRoutes.post('/acceptfollow/:username',identifyUser,userController.acceptFollowRequest)
+
+
+/**
+ * @routes POST /api/users/rejectfollow/:username
+ * @description reject Follow Request
+ * @access privete
+ */
+userRoutes.post('/rejectfollow/:username',identifyUser,userController.rejectFollowRequest)
+
+
+
+
+// sendFollowRequest,
+//     unfollowUserController,
+//     ,
+//     rejectFollowRequest,
+//     getPendingRequests
 
 module.exports=userRoutes;

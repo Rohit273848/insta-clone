@@ -23,10 +23,16 @@ postRouter.get("/",identifyuser,postController.getPostController);
 
 
 /**
- * GET  /api/posts/details/:postId
- * 
- * -return the details about a specific post with the id . also check whether the post belongs to the user that the require come from 
+ * @routes GET  /api/posts/details/:postId
+ * @description return the details about a specific post with the id . also check whether the post belongs to the user that the require come from 
  */
 postRouter.get('/detail/:postId',identifyuser,postController.getPostDetailController)
+
+/**
+ * @routes POST /api/posts/like/:postId
+ * @description like a post with username that provided in request params.
+ */
+postRouter.post('/like/:postId',identifyuser,postController.likePostController)
+
 
 module.exports=postRouter;
