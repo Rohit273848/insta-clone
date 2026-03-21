@@ -1,0 +1,337 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ============================================================
+//  form.scss — Glassmorphism Auth UI
+//  Covers: Login & Register  |  Deep Red → Black theme
+// ============================================================
+
+// ── Variables ───────────────────────────────────────────────
+
+// Colors
+$color-bg-start:        #1a0000;
+$color-bg-end:          #000000;
+$color-glow-red:        #c0392b;
+$color-glow-orange:     #e67e22;
+$color-glass-bg:        rgba(255, 255, 255, 0.05);
+$color-glass-border:    rgba(255, 255, 255, 0.12);
+$color-input-bg:        rgba(255, 255, 255, 0.07);
+$color-input-border:    rgba(255, 255, 255, 0.15);
+$color-input-focus:     rgba(224, 100, 60, 0.65);
+$color-text-primary:    #f0e6e6;
+$color-text-muted:      rgba(240, 230, 230, 0.55);
+$color-placeholder:     rgba(240, 210, 200, 0.40);
+$color-link:            #e8826a;
+$color-link-hover:      #ff6347;
+
+// Gradients
+$gradient-bg:           radial-gradient(ellipse at 30% 20%, #3b0a0a 0%, #1a0000 40%, #000000 100%);
+$gradient-btn:          linear-gradient(135deg, #c0392b 0%, #e67e22 100%);
+$gradient-btn-hover:    linear-gradient(135deg, #e74c3c 0%, #f39c12 100%);
+
+// Spacing
+$spacing-xs:   8px;
+$spacing-sm:   14px;
+$spacing-md:   24px;
+$spacing-lg:   40px;
+$spacing-xl:   56px;
+
+// Radius
+$radius-input:     50px;
+$radius-container: 24px;
+$radius-btn:       50px;
+
+// Transitions
+$transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-fast:   all 0.18s ease;
+
+// Typography
+$font-primary: 'Segoe UI', 'SF Pro Display', system-ui, sans-serif;
+
+// ── Global Reset / Base ─────────────────────────────────────
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin:     0;
+  padding:    0;
+}
+
+// ── Main — Full-screen centered stage ───────────────────────
+
+main {
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  min-height:       100vh;
+  min-width:        100vw;
+  background:       $gradient-bg;
+  font-family:      $font-primary;
+  position:         relative;
+  overflow:         hidden;
+
+  // Soft ambient glow blob — top-left
+  &::before {
+    content:       '';
+    position:      absolute;
+    top:           -120px;
+    left:          -80px;
+    width:         480px;
+    height:        480px;
+    background:    radial-gradient(circle, rgba($color-glow-red, 0.22) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation:     pulseGlow 6s ease-in-out infinite alternate;
+  }
+
+  // Soft ambient glow blob — bottom-right
+  &::after {
+    content:       '';
+    position:      absolute;
+    bottom:        -100px;
+    right:         -60px;
+    width:         380px;
+    height:        380px;
+    background:    radial-gradient(circle, rgba($color-glow-orange, 0.14) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation:     pulseGlow 8s ease-in-out infinite alternate-reverse;
+  }
+}
+
+// ── Form Container ───────────────────────────────────────────
+
+.form-container {
+  position:         relative;
+  z-index:          1;
+  width:            100%;
+  max-width:        420px;
+  padding:          $spacing-xl $spacing-lg;
+  margin:           $spacing-md;
+
+  // Glassmorphism core
+  background:       $color-glass-bg;
+  backdrop-filter:  blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border:           1px solid $color-glass-border;
+  border-radius:    $radius-container;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.55),
+    0 0  60px  rgba($color-glow-red, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  // Inner top highlight streak
+  &::before {
+    content:          '';
+    position:         absolute;
+    inset:            0;
+    border-radius:    inherit;
+    background:       linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      transparent 50%
+    );
+    pointer-events:   none;
+  }
+
+  // ── Heading ─────────────────────────────────────────────
+
+  h1 {
+    font-size:      2rem;
+    font-weight:    700;
+    letter-spacing: -0.02em;
+    color:          $color-text-primary;
+    text-align:     center;
+    margin-bottom:  $spacing-lg;
+    position:       relative;
+
+    // Subtle glow under the title
+    &::after {
+      content:       '';
+      display:       block;
+      margin:        10px auto 0;
+      width:         48px;
+      height:        3px;
+      border-radius: 2px;
+      background:    $gradient-btn;
+      box-shadow:    0 0 10px rgba($color-glow-red, 0.6);
+    }
+  }
+
+  // ── Form element ────────────────────────────────────────
+
+  form {
+    display:        flex;
+    flex-direction: column;
+    gap:            $spacing-sm;
+
+    // ── Input fields ──────────────────────────────────────
+
+    input {
+      width:            100%;
+      padding:          13px $spacing-md;
+      background:       $color-input-bg;
+      border:           1px solid $color-input-border;
+      border-radius:    $radius-input;
+      color:            $color-text-primary;
+      font-size:        0.93rem;
+      font-family:      inherit;
+      outline:          none;
+      transition:       $transition-smooth;
+      box-shadow:       inset 0 1px 3px rgba(0, 0, 0, 0.3);
+
+      &::placeholder {
+        color:          $color-placeholder;
+        font-size:      0.88rem;
+      }
+
+      &:hover {
+        border-color:   rgba(255, 255, 255, 0.25);
+        background:     rgba(255, 255, 255, 0.09);
+      }
+
+      &:focus {
+        border-color:   $color-input-focus;
+        background:     rgba(255, 255, 255, 0.10);
+        box-shadow:
+          inset 0 1px 3px rgba(0, 0, 0, 0.3),
+          0 0 0 3px     rgba($color-glow-red, 0.20),
+          0 0 16px      rgba($color-glow-orange, 0.15);
+      }
+    }
+
+    // ── Submit button ─────────────────────────────────────
+
+    button {
+      width:          100%;
+      padding:        13px $spacing-md;
+      margin-top:     $spacing-xs;
+      background:     $gradient-btn;
+      border:         none;
+      border-radius:  $radius-btn;
+      color:          #fff;
+      font-size:      0.96rem;
+      font-weight:    600;
+      font-family:    inherit;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor:         pointer;
+      transition:     $transition-smooth;
+      box-shadow:
+        0 4px 18px rgba($color-glow-red, 0.45),
+        0 0 30px  rgba($color-glow-orange, 0.15);
+
+      &:hover {
+        background:   $gradient-btn-hover;
+        transform:    translateY(-2px) scale(1.02);
+        box-shadow:
+          0 8px 28px rgba($color-glow-red, 0.60),
+          0 0  40px  rgba($color-glow-orange, 0.25);
+      }
+
+      &:active {
+        transform:    translateY(0) scale(0.98);
+        box-shadow:
+          0 3px 12px rgba($color-glow-red, 0.40);
+      }
+    }
+  }
+
+  // ── Footer paragraph ──────────────────────────────────────
+
+  p {
+    text-align:     center;
+    margin-top:     $spacing-md;
+    color:          $color-text-muted;
+    font-size:      0.88rem;
+    line-height:    1.5;
+
+    .toggleAuthForm {
+      color:          $color-link;
+      text-decoration: none;
+      font-weight:    500;
+      position:       relative;
+      transition:     $transition-fast;
+
+      &::after {
+        content:        '';
+        position:       absolute;
+        left:           0;
+        bottom:         -1px;
+        width:          0%;
+        height:         1px;
+        background:     $color-link-hover;
+        transition:     width 0.25s ease;
+      }
+
+      &:hover {
+        color:          $color-link-hover;
+
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+// ── Keyframes ────────────────────────────────────────────────
+
+@keyframes pulseGlow {
+  from { opacity: 0.7; transform: scale(1);    }
+  to   { opacity: 1.0; transform: scale(1.12); }
+}
+
+// ── Responsive — Mobile ──────────────────────────────────────
+
+@media (max-width: 480px) {
+  .form-container {
+    padding:       $spacing-lg $spacing-md;
+    border-radius: 18px;
+    margin:        $spacing-sm;
+
+    h1 {
+      font-size: 1.65rem;
+    }
+
+    form {
+      input,
+      button {
+        padding:   11px $spacing-sm;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .form-container {
+    padding:       $spacing-md $spacing-sm;
+
+    h1 {
+      font-size: 1.4rem;
+    }
+  }
+}
