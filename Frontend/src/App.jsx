@@ -5,8 +5,8 @@ import './style.scss'
 
 function App() {
 
-  return (
-   <AppRoutes/>
+  return  (
+     <AppRoutes/>
   )
 }
 
